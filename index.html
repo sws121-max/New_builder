@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebForge - Website Builder</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffde59;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #ffde59;
+            color: #333;
+        }
+
+        .btn-primary:hover {
+            background: #ffd32a;
+            transform: translateY(-2px);
+        }
+
+        .templates-section {
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            margin: 0 10px 10px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: #6e8efb;
+            color: white;
+            border-color: #6e8efb;
+        }
+
+        .templates-container {
+            position: relative;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+
+        .templates-slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            padding: 20px 0;
+        }
+
+        .template-card {
+            min-width: 300px;
+            height: 400px;
+            margin: 0 15px;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .template-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .template-img {
+            height: 70%;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .template-info {
+            padding: 20px;
+        }
+
+        .template-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .template-desc {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .slider-controls {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .slider-btn {
+            background: white;
+            border: 2px solid #ddd;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-btn:hover {
+            background: #6e8efb;
+            color: white;
+            border-color: #6e8efb;
+        }
+
+        .builder-section {
+            display: none;
+            padding: 40px 0;
+        }
+
+        .builder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .device-preview {
+            display: flex;
+            background: #eaeef2;
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .device-btn {
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .device-btn.active {
+            background: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .builder-layout {
+            display: flex;
+            gap: 20px;
+            height: 70vh;
+        }
+
+        .components-panel {
+            width: 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+
+        .component-item {
+            padding: 12px 15px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .component-item i {
+            margin-right: 10px;
+            color: #6e8efb;
+        }
+
+        .component-item:hover {
+            background: #e6eeff;
+            transform: translateX(5px);
+        }
+
+        .preview-panel {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f9fafb;
+        }
+
+        .website-preview {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .properties-panel {
+            width: 250px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .property-group {
+            margin-bottom: 20px;
+        }
+
+        .property-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .property-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .color-option:nth-child(1) { background: #6e8efb; }
+        .color-option:nth-child(2) { background: #a777e3; }
+        .color-option:nth-child(3) { background: #58d68d; }
+        .color-option:nth-child(4) { background: #f39c12; }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #6e8efb;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .footer-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid #3e546b;
+            color: #bdc3c7;
+        }
+
+        @media (max-width: 992px) {
+            .builder-layout {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .components-panel, .properties-panel {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-code"></i>
+                WebForge
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Templates</a></li>
+                    <li><a href="#">Features</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <button class="btn btn-primary">Sign Up Free</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="templates-section" id="templates-section">
+            <h2 class="section-title">Choose Your Website Template</h2>
+            <p class="section-subtitle">Select from hundreds of professionally designed templates for every business need</p>
+            
+            <div class="categories">
+                <button class="category-btn active">All</button>
+                <button class="category-btn">E-commerce</button>
+                <button class="category-btn">Business</button>
+                <button class="category-btn">Portfolio</button>
+                <button class="category-btn">Blog</button>
+            </div>
+            
+            <div class="templates-container">
+                <div class="templates-slider">
+                    <div class="template-card" onclick="selectTemplate(1)">
+                        <div class="template-img">E-commerce Template</div>
+                        <div class="template-info">
+                            <div class="template-title">Online Store</div>
+                            <div class="template-desc">Perfect for e-commerce businesses</div>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(2)">
+                        <div class="template-img">Business Template</div>
+                        <div class="template-info">
+                            <div class="template-title">Corporate Pro</div>
+                            <div class="template-desc">Professional business website</div>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(3)">
+                        <div class="template-img">Portfolio Template</div>
+                        <div class="template-info">
+                            <div class="template-title">Creative Portfolio</div>
+                            <div class="template-desc">Showcase your work beautifully</div>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(4)">
+                        <div class="template-img">Blog Template</div>
+                        <div class="template-info">
+                            <div class="template-title">Modern Blog</div>
+                            <div class="template-desc">Perfect for content creators</div>
+                        </div>
+                    </div>
+                    <div class="template-card" onclick="selectTemplate(5)">
+                        <div class="template-img">Restaurant Template</div>
+                        <div class="template-info">
+                            <div class="template-title">Gourmet</div>
+                            <div class="template-desc">For restaurants and food businesses</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slider-controls">
+                <div class="slider-btn" onclick="slideTemplates(-1)">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="slider-btn" onclick="slideTemplates(1)">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </section>
+
+        <section class="builder-section" id="builder-section">
+            <div class="builder-header">
+                <h2 class="section-title">Website Builder</h2>
+                <div>
+                    <button class="btn btn-primary">Save</button>
+                    <button class="btn btn-primary">Publish</button>
+                </div>
+            </div>
+            
+            <div class="device-preview">
+                <button class="device-btn active">Desktop</button>
+                <button class="device-btn">Tablet</button>
+                <button class="device-btn">Mobile</button>
+            </div>
+            
+            <div class="builder-layout">
+                <div class="components-panel">
+                    <h3 class="panel-title">Components</h3>
+                    <div class="component-item">
+                        <i class="fas fa-header"></i> Header
+                    </div>
+                    <div class="component-item">
+                        <i class="fas fa-image"></i> Hero Section
+                    </div>
+                    <div class="component-item">
+                        <i class="fas fa-th"></i> Features Grid
+                    </div>
+                    <div class="component-item">
+                        <i class="fas fa-shopping-cart"></i> Product Showcase
+                    </div>
+                    <div class="component-item">
+                        <i class="fas fa-newspaper"></i> Blog Section
+                    </div>
+                    <div class="component-item">
+                        <i class="fas fa-map-marker-alt"></i> Contact Section
+                    </div>
+                    <div class="component-item">
+                        <i class="fas fa-footer"></i> Footer
+                    </div>
+                </div>
+                
+                <div class="preview-panel">
+                    <div class="preview-header">
+                        <div>Live Preview</div>
+                        <div>
+                            <button class="btn btn-primary">Refresh</button>
+                        </div>
+                    </div>
+                    <div class="preview-content">
+                        <div class="website-preview">
+                            <!-- Preview will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="properties-panel">
+                    <h3 class="panel-title">Properties</h3>
+                    
+                    <div class="property-group">
+                        <label class="property-label">Background Color</label>
+                        <div class="color-picker">
+                            <div class="color-option"></div>
+                            <div class="color-option"></div>
+                            <div class="color-option"></div>
+                            <div class="color-option"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="property-group">
+                        <label class="property-label">Font Family</label>
+                        <select class="property-input">
+                            <option>Open Sans</option>
+                            <option>Roboto</option>
+                            <option>Montserrat</option>
+                            <option>Lato</option>
+                        </select>
+                    </div>
+                    
+                    <div class="property-group">
+                        <label class="property-label">Header Sticky</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="property-group">
+                        <label class="property-label">Search Bar</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3 class="footer-title">WebForge</h3>
+                    <p>Create stunning websites without coding. Drag, drop, and launch your perfect site in minutes.</p>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Templates</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3 class="footer-title">Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 WebForge. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Current slide position
+        let slidePosition = 0;
+        
+        // Function to slide templates
+        function slideTemplates(direction) {
+            const slider = document.querySelector('.templates-slider');
+            const templates = document.querySelectorAll('.template-card');
+            const templateWidth = templates[0].offsetWidth + 30; // width + margin
+            
+            // Calculate max slides
+            const maxSlides = templates.length - 3;
+            
+            // Update slide position
+            slidePosition += direction;
+            
+            // Boundary checks
+            if (slidePosition < 0) slidePosition = 0;
+            if (slidePosition > maxSlides) slidePosition = maxSlides;
+            
+            // Apply transform
+            slider.style.transform = `translateX(-${slidePosition * templateWidth}px)`;
+        }
+        
+        // Function to select a template
+        function selectTemplate(templateId) {
+            // Hide templates section and show builder section
+            document.getElementById('templates-section').style.display = 'none';
+            document.getElementById('builder-section').style.display = 'block';
+            
+            // Load the selected template (in a real app, this would fetch template data)
+            loadTemplate(templateId);
+        }
+        
+        // Function to load template into builder
+        function loadTemplate(templateId) {
+            // In a real application, this would fetch template data from a server
+            // and render it in the preview panel
+            
+            const preview = document.querySelector('.website-preview');
+            
+            // Simple template rendering based on ID
+            switch(templateId) {
+                case 1:
+                    preview.innerHTML = `
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #6e8efb, #a777e3); color: white;">
+                            <h1>E-commerce Template</h1>
+                            <p>This is a sample e-commerce template preview</p>
+                        </div>
+                        <div style="padding: 20px;">
+                            <h2>Featured Products</h2>
+                            <div style="display: flex; gap: 15px; margin-top: 15px;">
+                                <div style="border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+                                    <div style="height: 100px; background: #f1f1f1; margin-bottom: 10px;"></div>
+                                    <h3>Product 1</h3>
+                                    <p>$29.99</p>
+                                </div>
+                                <div style="border: 1px solid #ddd; padding: 10px; border-radius: 8px;">
+                                    <div style="height: 100px; background: #f1f1f1; margin-bottom: 10px;"></div>
+                                    <h3>Product 2</h3>
+                                    <p>$39.99</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 2:
+                    preview.innerHTML = `
+                        <div style="text-align: center; padding: 20px; background: linear-gradient(135deg, #3498db, #2c3e50); color: white;">
+                            <h1>Business Template</h1>
+                            <p>Professional business website template</p>
+                        </div>
+                        <div style="padding: 20px;">
+                            <h2>Our Services</h2>
+                            <div style="display: flex; gap: 15px; margin-top: 15px;">
+                                <div style="flex: 1; border-left: 3px solid #3498db; padding-left: 10px;">
+                                    <h3>Consulting</h3>
+                                    <p>Professional business consulting services</p>
+                                </div>
+                                <div style="flex: 1; border-left: 3px solid #3498db; padding-left: 10px;">
+                                    <h3>Development</h3>
+                                    <p>Custom software development</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                default:
+                    preview.innerHTML = `
+                        <div style="text-align: center; padding: 40px; background: #f1f1f1;">
+                            <h1>Template Preview</h1>
+                            <p>This is a preview of the selected template</p>
+                            <button style="margin-top: 15px; padding: 10px 20px; background: #6e8efb; color: white; border: none; border-radius: 5px;">
+                                Learn More
+                            </button>
+                        </div>
+                    `;
+            }
+        }
+        
+        // Add event listeners for device preview buttons
+        const deviceButtons = document.querySelectorAll('.device-btn');
+        deviceButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                deviceButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Add event listeners for category buttons
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
